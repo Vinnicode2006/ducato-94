@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ducato 1994 — Lidenskap for en legende</title>
+<link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,300;0,400;0,600;0,700;1,300&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg:      #f5f2ee;
+    --bg2:     #edeae5;
+    --fg:      #1c1a17;
+    --primary: #0052cc;
+    --muted:   #6b6560;
+    --border:  #d8d4cf;
+    --white:   #ffffff;
+  }
+  body { background: var(--bg); color: var(--fg); font-family: 'Josefin Sans', sans-serif; }
+  .mono { font-family: 'JetBrains Mono', monospace; }
+
+  /* HEADER */
+  header {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(245,242,238,.92); backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-inner {
+    max-width: 1280px; margin: 0 auto; padding: 0 24px;
+    height: 64px; display: flex; align-items: center; justify-content: space-between;
+  }
+  .logo { text-decoration: none; display: flex; align-items: center; gap: 10px; }
+  .logo-main { font-size: 14px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: var(--fg); }
+  .logo-sub  { font-size: 11px; font-weight: 300; letter-spacing: .15em; text-transform: uppercase; color: var(--muted); }
+  nav { display: flex; align-items: center; gap: 4px; }
+  nav a {
+    padding: 6px 14px; border-radius: 6px;
+    font-size: 11px; letter-spacing: .15em; text-transform: uppercase;
+    text-decoration: none; color: var(--muted); transition: color .2s, background .2s;
+  }
+  nav a:hover { color: var(--fg); background: var(--bg2); }
+  nav a.active { color: var(--primary); background: rgba(0,82,204,.08); font-weight: 600; }
+  .btn-primary {
+    padding: 9px 20px; background: var(--primary); color: #fff; border-radius: 6px;
+    font-size: 11px; letter-spacing: .15em; text-transform: uppercase;
+    text-decoration: none; font-weight: 600; transition: opacity .2s;
+  }
+  .btn-primary:hover { opacity: .85; }
+  .btn-outline {
+    padding: 9px 20px; border: 1.5px solid var(--fg); color: var(--fg); border-radius: 6px;
+    font-size: 11px; letter-spacing: .15em; text-transform: uppercase;
+    text-decoration: none; font-weight: 600; transition: background .2s;
+  }
+  .btn-outline:hover { background: var(--fg); color: var(--white); }
+
+  /* LABEL */
+  .label { display: inline-flex; align-items: center; gap: 12px; margin-bottom: 32px; }
+  .label::before { content: ''; width: 32px; height: 1.5px; background: var(--primary); display: block; }
+  .label span { font-size: 11px; letter-spacing: .2em; text-transform: uppercase; color: var(--primary); font-weight: 600; }
+
+  /* CONTAINERS */
+  .wrap { max-width: 1280px; margin: 0 auto; padding: 0 24px; }
+  section { padding: 96px 24px; }
+  .section-muted { background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+
+  /* GRIDS */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1px; background: var(--border); }
+  .grid-3 > * { background: var(--white); padding: 36px; }
+  .grid-4 { display: grid; grid-template-columns: repeat(4,1fr); gap: 1px; background: var(--border); }
+  .grid-4 > * { background: var(--bg); padding: 24px; }
+
+  /* TYPOGRAPHY */
+  h1 { font-size: clamp(2.8rem,6vw,5rem); font-weight: 300; text-transform: uppercase; letter-spacing: .03em; line-height: 1.05; }
+  h2 { font-size: clamp(2rem,4vw,3.2rem); font-weight: 300; text-transform: uppercase; letter-spacing: .03em; line-height: 1.1; }
+  h3 { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .15em; margin-bottom: 16px; }
+  p  { color: var(--muted); line-height: 1.75; font-size: 15px; }
+  strong { font-weight: 700; color: var(--fg); }
+
+  /* HERO */
+  .hero {
+    position: relative; min-height: 100vh;
+    display: flex; align-items: center; overflow: hidden;
+  }
+  .hero-img {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    object-fit: cover; opacity: .18;
+  }
+  .hero-content { position: relative; max-width: 1280px; margin: 0 auto; padding: 160px 24px; }
+  .hero-tag {
+    display: inline-block; background: var(--primary); color: #fff;
+    padding: 6px 14px; font-size: 10px; letter-spacing: .2em;
+    text-transform: uppercase; font-weight: 600; margin-bottom: 32px;
+  }
+
+  /* SPEC ROW */
+  .spec-row {
+    border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+    background: var(--white);
+  }
+  .spec-row-inner {
+    max-width: 1280px; margin: 0 auto; padding: 20px 24px;
+    display: flex; flex-wrap: wrap; gap: 16px 48px; justify-content: space-between;
+  }
+  .spec-item-label { font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+  .spec-item-val   { font-size: 13px; font-weight: 600; }
+
+  /* IMAGE CARD */
+  .img-card {
+    position: relative; border-radius: 2px; overflow: hidden;
+    border: 1px solid var(--border); aspect-ratio: 4/3;
+  }
+  .img-card img { width: 100%; height: 100%; object-fit: cover; }
+  .img-card-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(28,26,23,.7) 0%, transparent 55%);
+  }
+  .img-card-text { position: absolute; bottom: 0; left: 0; right: 0; padding: 24px; }
+
+  /* FOOTER */
+  footer { border-top: 1px solid var(--border); background: var(--white); padding: 48px 24px; }
+  .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 40px; }
+  .footer-link { font-size: 12px; color: var(--muted); text-decoration: none; display: block; margin-bottom: 10px; }
+  .footer-link:hover { color: var(--fg); }
+  .footer-title { font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); margin-bottom: 18px; }
+  .footer-bottom { border-top: 1px solid var(--border); padding-top: 28px; display: flex; justify-content: space-between; }
+
+  @media (max-width: 768px) {
+    .grid-2, .grid-3 { grid-template-columns: 1fr; }
+    .grid-4 { grid-template-columns: 1fr 1fr; }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+    nav { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="nav-inner">
+    <a href="index.html" class="logo">
+      <span class="logo-main">Ducato '94</span>
+      <span class="logo-sub">1.9 TurboDiesel</span>
+    </a>
+    <nav>
+      <a href="index.html" class="active">Hjem</a>
+      <a href="layouts.html">Layouts</a>
+      <a href="kontakt.html">Kontakt</a>
+    </nav>
+    <a href="layouts.html" class="btn-primary">Se layouter</a>
+  </div>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+  <img class="hero-img" src="https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=1920&q=80" alt="Vei og eventyr">
+  <div class="hero-content">
+    <span class="hero-tag">Fiat Ducato 1994 · 1.9 Turbo Diesel</span>
+    <h1 style="max-width:800px; margin-bottom:32px;">
+      En van.<br>
+      Tusen<br>
+      <strong>muligheter.</strong>
+    </h1>
+    <p style="max-width:480px; margin-bottom:48px; font-size:16px;">
+      1994 Fiat Ducato med 1.9-liters turbodiesel er ikke bare et kjøretøy — det er et lerret. Robust, pålitelig og skapt for de som vil leve annerledes.
+    </p>
+    <div style="display:flex;gap:16px;flex-wrap:wrap;">
+      <a href="layouts.html" class="btn-primary">Utforsk layouter →</a>
+      <a href="kontakt.html" class="btn-outline">Bli en del av fellesskapet</a>
+    </div>
+  </div>
+</div>
+
+<!-- SPEC ROW -->
+<div class="spec-row">
+  <div class="spec-row-inner">
+    <div><div class="spec-item-label">Motorkode</div><div class="spec-item-val mono">8140.27</div></div>
+    <div><div class="spec-item-label">Slagvolum</div><div class="spec-item-val mono">1 929 cm³</div></div>
+    <div><div class="spec-item-label">Effekt</div><div class="spec-item-val mono">69–82 hk</div></div>
+    <div><div class="spec-item-label">Dreiemoment</div><div class="spec-item-val mono">175 Nm</div></div>
+    <div><div class="spec-item-label">Drivstoff</div><div class="spec-item-val mono">Diesel</div></div>
+    <div><div class="spec-item-label">Årsmodell</div><div class="spec-item-val mono">1990–1999</div></div>
+  </div>
+</div>
+
+<!-- OM BILEN -->
+<section>
+  <div class="wrap">
+    <div class="grid-2">
+      <div>
+        <div class="label"><span>Om bilen</span></div>
+        <h2 style="margin-bottom:24px;">Bygget for å<br><strong>vare.</strong></h2>
+        <p style="margin-bottom:20px;">
+          Fiat Ducato fra 1994 er en av de mest allsidige varebilene som noensinne er bygget. Med den ærverdige 1.9-liters turbodieselmotoren — enkel i konstruksjon, nærmest umulig å drepe — er dette en plattform som tåler tiår med kjærlighet og bruk.
+        </p>
+        <p style="margin-bottom:20px;">
+          Det er noe med proporsjonene til Ducatoen. Det romslige innredningsrommet, den rette bakeveggen, de lave tersklene. Det er som om Fiat visste at fremtidige generasjoner ville bygge sine hjem der inne.
+        </p>
+        <p style="margin-bottom:40px; color: var(--fg); font-weight: 400;">
+          Og det er akkurat det vi elsker med den.
+        </p>
+        <a href="layouts.html" class="btn-primary">Se innredningsideer →</a>
+      </div>
+      <div class="img-card">
+        <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=900&q=80" alt="Gammel hvit van">
+        <div class="img-card-overlay"></div>
+        <div class="img-card-text">
+          <div class="mono" style="font-size:10px;color:rgba(255,255,255,.7);">Ducato Gen.2 · Plattform 230 · Produksjon 1990–2002</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LIDENSKAP -->
+<section class="section-muted">
+  <div class="wrap">
+    <div class="label"><span>Lidenskap</span></div>
+    <h2 style="max-width:600px; margin-bottom:16px;">Mer enn en<br><strong>varebil.</strong></h2>
+    <p style="max-width:600px; margin-bottom:64px;">Over hele verden har folk oppdaget det vi vet: Ducatoen er den perfekte plattformen for et friere liv.</p>
+    <div class="grid-3">
+      <div>
+        <div style="font-size:32px; margin-bottom:16px;">🛏</div>
+        <h3>Soverom på hjul</h3>
+        <p>Innlastingshøyden gjør det mulig å stå oppreist. En fast seng på tvers gir deg et ekte soverom — ikke bare en madrass på gulvet.</p>
+      </div>
+      <div>
+        <div style="font-size:32px; margin-bottom:16px;">🔧</div>
+        <h3>Enkel å jobbe med</h3>
+        <p>Motoren er berømt for sin enkelhet. Et barn kan lære seg grunnleggende vedlikehold. Det er frihet — å vite at du kan fikse det selv.</p>
+      </div>
+      <div>
+        <div style="font-size:32px; margin-bottom:16px;">🗺</div>
+        <h3>Skapt for veien</h3>
+        <p>Turbodieselen gir jevnt trekkraft fra lave turtall. Perfekt for langkjøring, fjellveier og de rutene som ikke er på kartet.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MOTOR-HIGHLIGHT -->
+<section>
+  <div class="wrap">
+    <div class="grid-2" style="gap:80px;">
+      <div class="img-card" style="aspect-ratio:1/1;">
+        <img src="https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?auto=format&fit=crop&w=900&q=80" alt="Dieselmotor">
+        <div class="img-card-overlay"></div>
+      </div>
+      <div>
+        <div class="label"><span>Hjertet</span></div>
+        <h2 style="margin-bottom:24px;">1.9 Turbo<br><strong>Diesel.</strong></h2>
+        <p style="margin-bottom:20px;">Fiat/VM-motoren med koden 8140.27 er en legende blant mekanikere. Direkteinnsprøytet, robust støpejernkonstruksjon, mekanisk innsprøytningspumpe — dette er en motor fra en tid da holdbarhet var viktigere enn kompleksitet.</p>
+        <p style="margin-bottom:36px;">Med riktig vedlikehold er 400–500 000 km fullt realistisk. Det er ikke et tall — det er et løfte.</p>
+        <div class="grid-4" style="margin-top:0; gap:0;">
+          <div style="background:var(--white); border:1px solid var(--border); padding:20px;">
+            <div class="spec-item-label">Oljesystem</div>
+            <div class="spec-item-val mono" style="font-size:12px;">Trykksatt</div>
+          </div>
+          <div style="background:var(--white); border:1px solid var(--border); padding:20px;">
+            <div class="spec-item-label">Kjøling</div>
+            <div class="spec-item-val mono" style="font-size:12px;">Vannkjølt</div>
+          </div>
+          <div style="background:var(--white); border:1px solid var(--border); padding:20px;">
+            <div class="spec-item-label">Turbo</div>
+            <div class="spec-item-val mono" style="font-size:12px;">Garrett</div>
+          </div>
+          <div style="background:var(--white); border:1px solid var(--border); padding:20px;">
+            <div class="spec-item-label">Timing</div>
+            <div class="spec-item-val mono" style="font-size:12px;">Kjede</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="section-muted" style="text-align:center;">
+  <div class="wrap">
+    <div class="label" style="justify-content:center;"><span>Kom i gang</span></div>
+    <h2 style="margin-bottom:20px;">Hva bygger<br><strong>du?</strong></h2>
+    <p style="max-width:500px; margin: 0 auto 48px;">Enten du drømmer om et minimalistisk sovekabinett eller et fullt utstyrt hjem på hjul — vi har idéene som inspirerer deg.</p>
+    <a href="layouts.html" class="btn-primary" style="font-size:12px;">Se alle layout-løsninger →</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <div style="font-size:14px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;margin-bottom:10px;">Ducato '94</div>
+        <p style="font-size:12px;max-width:240px;">Lidenskap for Fiat Ducato 1994 med 1.9-liters turbodiesel. For byggere, drømmere og vanlivet.</p>
+      </div>
+      <div>
+        <div class="footer-title">Sider</div>
+        <a href="index.html" class="footer-link">Hjem</a>
+        <a href="layouts.html" class="footer-link">Layouts</a>
+        <a href="kontakt.html" class="footer-link">Kontakt</a>
+      </div>
+      <div>
+        <div class="footer-title">Bilen</div>
+        <a href="index.html#motor" class="footer-link">1.9 TD Motor</a>
+        <a href="layouts.html" class="footer-link">Innredning</a>
+        <a href="kontakt.html" class="footer-link">Fellesskapet</a>
+      </div>
+      <div>
+        <div class="footer-title">Kontakt</div>
+        <a href="kontakt.html" class="footer-link">Send melding</a>
+        <a href="kontakt.html" class="footer-link">Del din Ducato</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span class="mono" style="font-size:11px;color:var(--muted);">© 2026 Ducato '94 — Skapt med lidenskap</span>
+      <span class="mono" style="font-size:11px;color:var(--border);">Fiat Ducato · 8140.27 · 1.9 TDi · Gen.2</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Layouts — Ducato '94</title>
+<link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,300;0,400;0,600;0,700;1,300&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg:      #f5f2ee;
+    --bg2:     #edeae5;
+    --fg:      #1c1a17;
+    --primary: #0052cc;
+    --muted:   #6b6560;
+    --border:  #d8d4cf;
+    --white:   #ffffff;
+  }
+  body { background: var(--bg); color: var(--fg); font-family: 'Josefin Sans', sans-serif; }
+  .mono { font-family: 'JetBrains Mono', monospace; }
+  header { position: sticky; top: 0; z-index: 50; background: rgba(245,242,238,.92); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); }
+  .nav-inner { max-width: 1280px; margin: 0 auto; padding: 0 24px; height: 64px; display: flex; align-items: center; justify-content: space-between; }
+  .logo { text-decoration: none; display: flex; align-items: center; gap: 10px; }
+  .logo-main { font-size: 14px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: var(--fg); }
+  .logo-sub  { font-size: 11px; font-weight: 300; letter-spacing: .15em; text-transform: uppercase; color: var(--muted); }
+  nav { display: flex; align-items: center; gap: 4px; }
+  nav a { padding: 6px 14px; border-radius: 6px; font-size: 11px; letter-spacing: .15em; text-transform: uppercase; text-decoration: none; color: var(--muted); transition: color .2s, background .2s; }
+  nav a:hover { color: var(--fg); background: var(--bg2); }
+  nav a.active { color: var(--primary); background: rgba(0,82,204,.08); font-weight: 600; }
+  .btn-primary { padding: 9px 20px; background: var(--primary); color: #fff; border-radius: 6px; font-size: 11px; letter-spacing: .15em; text-transform: uppercase; text-decoration: none; font-weight: 600; transition: opacity .2s; }
+  .btn-primary:hover { opacity: .85; }
+  .label { display: inline-flex; align-items: center; gap: 12px; margin-bottom: 32px; }
+  .label::before { content: ''; width: 32px; height: 1.5px; background: var(--primary); display: block; }
+  .label span { font-size: 11px; letter-spacing: .2em; text-transform: uppercase; color: var(--primary); font-weight: 600; }
+  .wrap { max-width: 1280px; margin: 0 auto; padding: 0 24px; }
+  section { padding: 96px 24px; }
+  .section-muted { background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  h1 { font-size: clamp(2.8rem,6vw,5rem); font-weight: 300; text-transform: uppercase; letter-spacing: .03em; line-height: 1.05; }
+  h2 { font-size: clamp(1.8rem,3.5vw,2.8rem); font-weight: 300; text-transform: uppercase; letter-spacing: .03em; line-height: 1.1; }
+  h3 { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .15em; margin-bottom: 14px; }
+  p  { color: var(--muted); line-height: 1.75; font-size: 15px; }
+  strong { font-weight: 700; color: var(--fg); }
+
+  /* LAYOUT CARD */
+  .layout-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .layout-card-img {
+    width: 100%; aspect-ratio: 16/9; object-fit: cover;
+    display: block;
+  }
+  .layout-card-body { padding: 28px; }
+  .layout-card-num { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--primary); margin-bottom: 8px; display: block; }
+  .layout-tag {
+    display: inline-block; padding: 3px 10px;
+    background: rgba(0,82,204,.08); color: var(--primary);
+    font-size: 10px; letter-spacing: .12em; text-transform: uppercase;
+    border-radius: 4px; margin-bottom: 14px; font-weight: 600;
+  }
+
+  /* FEATURE ROW */
+  .feature-row { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 10px; }
+  .feature-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--primary); flex-shrink: 0; margin-top: 7px; }
+
+  /* COMPARISON TABLE */
+  table { width: 100%; border-collapse: collapse; }
+  th, td { padding: 14px 16px; text-align: left; border-bottom: 1px solid var(--border); font-size: 13px; }
+  th { font-size: 10px; letter-spacing: .15em; text-transform: uppercase; color: var(--muted); background: var(--bg2); font-weight: 600; }
+  td:first-child { font-weight: 600; color: var(--fg); }
+  tr:last-child td { border-bottom: none; }
+  .check { color: var(--primary); font-weight: 700; }
+  .minus { color: var(--border); }
+
+  footer { border-top: 1px solid var(--border); background: var(--white); padding: 48px 24px; }
+  .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 40px; }
+  .footer-link { font-size: 12px; color: var(--muted); text-decoration: none; display: block; margin-bottom: 10px; }
+  .footer-title { font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); margin-bottom: 18px; }
+  .footer-bottom { border-top: 1px solid var(--border); padding-top: 28px; display: flex; justify-content: space-between; }
+
+  @media (max-width: 768px) {
+    .grid-layouts { grid-template-columns: 1fr !important; }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+    nav { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="nav-inner">
+    <a href="index.html" class="logo">
+      <span class="logo-main">Ducato '94</span>
+      <span class="logo-sub">1.9 TurboDiesel</span>
+    </a>
+    <nav>
+      <a href="index.html">Hjem</a>
+      <a href="layouts.html" class="active">Layouts</a>
+      <a href="kontakt.html">Kontakt</a>
+    </nav>
+    <a href="kontakt.html" class="btn-primary">Del din Ducato</a>
+  </div>
+</header>
+
+<!-- PAGE HEADER -->
+<section style="padding:128px 24px 80px; border-bottom:1px solid var(--border);">
+  <div class="wrap">
+    <div class="label"><span>Innredningsideer</span></div>
+    <h1 style="max-width:700px; margin-bottom:24px;">
+      Bygg din<br>
+      <strong>drømmebil.</strong>
+    </h1>
+    <p style="max-width:540px; font-size:16px;">
+      Ducato-plattformen er usedvanlig fleksibel. Her er seks gjennomtenkte layouter — fra minimalistisk weekendkabinett til fullt utstyrt hjem på hjul.
+    </p>
+  </div>
+</section>
+
+<!-- LAYOUT CARDS -->
+<section>
+  <div class="wrap">
+    <div class="grid-layouts" style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:24px;">
+
+      <!-- 1 -->
+      <div class="layout-card">
+        <img class="layout-card-img" src="https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?auto=format&fit=crop&w=800&q=80" alt="Minimalist layout">
+        <div class="layout-card-body">
+          <span class="layout-card-num">01</span>
+          <span class="layout-tag">Minimalist</span>
+          <h3>Helgesklart</h3>
+          <p style="margin-bottom:20px;">For deg som vil ha det enkelt. En fast seng bak, en liten benk med gassbrenneren og en isoporkjøleboks. Alt du trenger for en perfekt helg.</p>
+          <div class="feature-row"><div class="feature-dot"></div><span style="font-size:13px;color:var(--muted);">Fast seng på tvers (190 × 140 cm)</span></div>
+          <div class="feature-row"><div class="feature-dot"></div><span style="font-size:13px;color:var(--muted);">Enkel benk med gassbluss</span></div>
+          <div class="feature-row"><div class="feature-dot"></div><span style="font-size:13px;color:var(--muted);">Oppbevaring under sengen</span></div>
+          <div class="feature-row"><div class="feature-dot"></div><span style="font-size:13px;color:var(--muted);">Byggetid: 1–2 helger</span></div>
+        </div>
+      </div>
+
+      <!-- 2 -->
+      <div class="layout-card">
+        <img class="layout-card-img" src="https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?auto=format&fit=crop&w=800&q=80" alt="Camper layout">
+        <div class="layout-card-body">
+          <span class="layout-card-num">02</span>
+          <span class="layout-tag">Klassisk camper</span>
+          <h3>Hjem på veien</h3>
+          <p style="margin-bottom:20px;">Den klassiske campingbil-layouten tilpasset Ducatoen. Kjøkken langs én vegg, seng på tvers bak og sitteplass i midten.</p>
+          <div class="feature-row"><div class="feature-dot"></div><span style="font-size:13px;color:var(--muted);">Kjøkkenmodul med vask og komfyr</span></div>
+          <div class="feature-row"><div class="feature-dot"></div><span style="font-size:13px;color:var(--muted);">12V kjøleskap (40L)</span></div>
+          <div class="feature-row"><div class="feature-dot"></div><span style="font-size:13px;color:var(--muted);">Sitteplass for 2 med bord</span></div>
+          <div class="feature-row"><div class="feature-dot"></div><span style="font-size:13px;color:var(--muted);">Solcellepanel på taket</span></div>
+        </div>
+      </div>
+
+      <!-- 3 -->
+      <div class="layout-card">
+        <img class="layout-card-img" src="https://images.unsplash.com/photo-1537905569824-f89f14cceb68?auto=format&fit=crop&w=800&q=80" alt="Surf layout">
+        <div class="layout-card-body">
+          <span class="layout-card-num">03</span>
+          <span class="layout-tag">Aktiv / Surf</span>
+          <h3>Surfvan-oppsettet</h3>
+          <p style="margin-bottom:20px;">Maks lagringsplass for utstyr. Seng langs siden gir plass til brett, sykler eller ski under — og et kompakt kjøkken mot bakveggen.</p>
+          <div class="feature-row"><div class="feature-dot"></div><span style="font-size:13px;color:var(--muted);">Seng langs venstre side (200 × 90 cm)</span></div>
+          <div class="feature-row"><div class="feature-dot"></div><span style="font-size:13px;color:var(--muted);">Høy garasje under sengen</span></div>
+          <div class="feature-row"><div class="feature-dot"></div><span style="font-size:13px;color:var(--muted);">Kompakt kjøkken bak</span></div>
+          <div class="feature-row"><div class="feature-dot"></div><span style="font-size:13px;color:var(--muted);">Utendørs kjøkken i bakluka</span></div>
+        </div>
+      </div>
+
+      <!-- 4 -->
+      <div class="layout-card">
+        <img class="layout-card-img" src="https://images.unsplash.com/photo-1533055640609-24b498dfd74c?auto=format&fit=crop&w=800&q=80" alt="Remote work layout">
+        <div class="layout-card-body">
+          <span class="layout-card-num">04</span>
+          <span class="layout-tag">Hjemmekontor</span>
+          <h3>Jobb fra veien</h3>
+          <p style="margin-bottom:20px;">For deg som jobber remote. Fast skrivebordsplass med vindu, god belysning, kraftig batteri og solceller for stabil strøm hele dagen.</p>
+          <div class="feature-row"><div class="feature-dot"></div><span style="font-size:13px;color:var(--muted);">Fast skrivebord mot sidevindu</span></div>
+          <div class="feature-row"><div class="feature-dot"></div><span style="font-size:13px;color:var(--muted);">200Ah lithium batteri</span></div>
+          <div class="feature-row"><div class="feature-dot"></div><span style="font-size:13px;color:var(--muted);">400W solceller</span></div>
+          <div class="feature-row"><div class="feature-dot"></div><span style="font-size:13px;color:var(--muted);">Sammenleggbar seng for plass</span></div>
+        </div>
+      </div>
+
+      <!-- 5 -->
+      <div class="layout-card">
+        <img class="layout-card-img" src="https://images.unsplash.com/photo-1525811902-f2342640856e?auto=format&fit=crop&w=800&q=80" alt="Family layout">
+        <div class="layout-card-body">
+          <span class="layout-card-num">05</span>
+          <span class="layout-tag">Familie</span>
+          <h3>For to + barn</h3>
+          <p style="margin-bottom:20px;">Ducatoen er overraskende romslig for en familie. Hevbar seng i taket til ungene, fast dobbeltseng bak og fullt kjøkken langs siden.</p>
+          <div class="feature-row"><div class="feature-dot"></div><span style="font-size:13px;color:var(--muted);">Hevbar hengekøye-seng (taket)</span></div>
+          <div class="feature-row"><div class="feature-dot"></div><span style="font-size:13px;color:var(--muted);">Fast dobbeltseng bak</span></div>
+          <div class="feature-row"><div class="feature-dot"></div><span style="font-size:13px;color:var(--muted);">Fullt kjøkken med ovn</span></div>
+          <div class="feature-row"><div class="feature-dot"></div><span style="font-size:13px;color:var(--muted);">Takhøyde: stående (190 cm)</span></div>
+        </div>
+      </div>
+
+      <!-- 6 -->
+      <div class="layout-card">
+        <img class="layout-card-img" src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=800&q=80" alt="Expedition layout">
+        <div class="layout-card-body">
+          <span class="layout-card-num">06</span>
+          <span class="layout-tag">Ekspedisjon</span>
+          <h3>Lengre turer</h3>
+          <p style="margin-bottom:20px;">For de som vil langt. Ekstra vanntank, dieselvarmer, isolert vegger og plass til alt man trenger for uker ute i naturen.</p>
+          <div class="feature-row"><div class="feature-dot"></div><span style="font-size:13px;color:var(--muted);">100L vanntank under gulvet</span></div>
+          <div class="feature-row"><div class="feature-dot"></div><span style="font-size:13px;color:var(--muted);">Webasto/Eberspächer varmer</span></div>
+          <div class="feature-row"><div class="feature-dot"></div><span style="font-size:13px;color:var(--muted);">PIR-isolasjon (50 mm)</span></div>
+          <div class="feature-row"><div class="feature-dot"></div><span style="font-size:13px;color:var(--muted);">Kompaktdusj + toalett</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- SAMMENLIGNING -->
+<section class="section-muted">
+  <div class="wrap">
+    <div class="label"><span>Sammenligning</span></div>
+    <h2 style="margin-bottom:48px;">Finn din<br><strong>perfekte layout.</strong></h2>
+    <div style="background:var(--white); border:1px solid var(--border); border-radius:2px; overflow:hidden;">
+      <table>
+        <thead>
+          <tr>
+            <th>Layout</th>
+            <th>Fast seng</th>
+            <th>Kjøkken</th>
+            <th>Strøm</th>
+            <th>Lagring</th>
+            <th>Dusj</th>
+            <th>Byggetid</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>01 Minimalist</td><td class="check">✓</td><td class="mono" style="font-size:12px;">Enkel</td><td class="minus">–</td><td class="check">✓</td><td class="minus">–</td><td>1–2 helger</td></tr>
+          <tr><td>02 Klassisk</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td><td class="minus">–</td><td>2–4 helger</td></tr>
+          <tr><td>03 Surf</td><td class="check">✓</td><td class="mono" style="font-size:12px;">Kompakt</td><td class="check">✓</td><td class="check check" style="color:var(--fg);">★★</td><td class="minus">–</td><td>2–3 helger</td></tr>
+          <tr><td>04 Hjemmekontor</td><td class="check">✓</td><td class="check">✓</td><td class="check check" style="color:var(--fg);">★★</td><td class="check">✓</td><td class="minus">–</td><td>3–5 helger</td></tr>
+          <tr><td>05 Familie</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td><td class="minus">–</td><td>4–6 helger</td></tr>
+          <tr><td>06 Ekspedisjon</td><td class="check">✓</td><td class="check">✓</td><td class="check check" style="color:var(--fg);">★★</td><td class="check">✓</td><td class="check">✓</td><td>6–10 helger</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- TIPS -->
+<section>
+  <div class="wrap">
+    <div class="label"><span>Tips</span></div>
+    <h2 style="margin-bottom:48px;">Før du<br><strong>begynner.</strong></h2>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--border);">
+      <div style="background:var(--white); padding:36px;">
+        <h3>Isolasjon først</h3>
+        <p>Start alltid med isolasjonen. Kondens er fienden. Bruk PIR-plater (50mm) på vegger og tak, og tett alle spalter med spray-isolasjon. Det er den investeringen du aldri vil angre på.</p>
+      </div>
+      <div style="background:var(--white); padding:36px;">
+        <h3>Tenk på strøm tidlig</h3>
+        <p>Strømsystemet bør planlegges før du bygger noe annet. Lithium (LiFePO4) er dyrere men halverer vekten og tåler 3000+ sykler. Dimensjoner for fremtiden — du vil alltid ønske mer kapasitet.</p>
+      </div>
+      <div style="background:var(--white); padding:36px;">
+        <h3>Mål dobbelt</h3>
+        <p>Ducatoen finnes i flere lengder og bredder. Mål ditt spesifikke lasterom nøyaktig. L1H1 er mye mindre enn L2H2 — og millimetere betyr noe når du planlegger seng og kjøkken.</p>
+      </div>
+      <div style="background:var(--white); padding:36px;">
+        <h3>Golvvarme fungerer</h3>
+        <p>En dieselvarmer (Webasto eller Eberspächer) bruker svært lite drivstoff — 0,1–0,3L/time. I en godt isolert Ducato holder den deg varm gjennom norske vinternetter uten at det koster skjorta.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="section-muted" style="text-align:center;">
+  <div class="wrap">
+    <div class="label" style="justify-content:center;"><span>Klar?</span></div>
+    <h2 style="margin-bottom:20px;">Del din<br><strong>Ducato-drøm.</strong></h2>
+    <p style="max-width:440px; margin: 0 auto 40px;">Har du en Ducato under bygging — eller ferdig? Vi vil gjerne høre historien din.</p>
+    <a href="kontakt.html" class="btn-primary">Ta kontakt →</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <div style="font-size:14px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;margin-bottom:10px;">Ducato '94</div>
+        <p style="font-size:12px;max-width:240px;">Lidenskap for Fiat Ducato 1994 med 1.9-liters turbodiesel.</p>
+      </div>
+      <div>
+        <div class="footer-title">Sider</div>
+        <a href="index.html" class="footer-link">Hjem</a>
+        <a href="layouts.html" class="footer-link">Layouts</a>
+        <a href="kontakt.html" class="footer-link">Kontakt</a>
+      </div>
+      <div>
+        <div class="footer-title">Bilen</div>
+        <a href="index.html" class="footer-link">1.9 TD Motor</a>
+        <a href="layouts.html" class="footer-link">Innredning</a>
+      </div>
+      <div>
+        <div class="footer-title">Kontakt</div>
+        <a href="kontakt.html" class="footer-link">Send melding</a>
+        <a href="kontakt.html" class="footer-link">Del din Ducato</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span class="mono" style="font-size:11px;color:var(--muted);">© 2026 Ducato '94 — Skapt med lidenskap</span>
+      <span class="mono" style="font-size:11px;color:var(--border);">Fiat Ducato · 8140.27 · 1.9 TDi · Gen.2</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
